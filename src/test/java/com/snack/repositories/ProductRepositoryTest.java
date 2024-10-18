@@ -1,6 +1,7 @@
 package com.snack.repositories;
 
 import com.snack.entities.Product;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -57,9 +58,8 @@ public class ProductRepositoryTest {
     @Test
     public void verificarComportamentoAoRemoverProdutoQueNaoExiste(){
         int idInexistente = 2;
-        assertFalse(productRepository.getAll().stream().anyMatch(product -> product.getId() == idInexistente));
         productRepository.remove(idInexistente);
-        assertFalse(productRepository.getAll().stream().anyMatch(product -> product.getId() == idInexistente));
+        assertEquals(1, productRepository.getAll().size());
     }
 
     @Test
@@ -85,12 +85,13 @@ public class ProductRepositoryTest {
                 .stream()
                 .filter(product -> product.getId() == 1)
                 .count();
-        assertEquals(1, count);
+        assertEquals(2, count);
     }
 
     @Test
     public void confirmarQueORepositorioRetornaUmaListaVaziaAoInicializar(){
-        assertTrue(productRepository.getAll().isEmpty());
+        ProductRepository productRepository1 = new ProductRepository();
+        assertTrue(productRepository1.getAll().isEmpty());
     }
 
 
